@@ -34,4 +34,10 @@ public class LibraryController : ControllerBase
     {
         return Ok(_ILibraryService.Update(prLibrary));
     }
+
+    [HttpPost]
+    public IActionResult Save(Library prLibrary)
+    {
+        return Ok(_ILibraryService.Save(prLibrary));
+    }
 }
