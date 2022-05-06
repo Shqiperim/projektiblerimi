@@ -26,6 +26,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//app.UseCors(options => options.WithOrigins("http......").AllowAnyMethod());
+app.UseCors(options => options.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true));
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
