@@ -40,4 +40,11 @@ public class LibraryController : ControllerBase
     {
         return Ok(_ILibraryService.Save(prLibrary));
     }
+
+    [HttpDelete]
+    public IActionResult Delete(Library prLibrary)
+    {
+        _ILibraryService.Delete(prLibrary);
+        return Ok();
+    }
 }
