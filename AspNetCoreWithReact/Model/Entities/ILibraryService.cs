@@ -6,7 +6,7 @@ namespace AspNetCoreWithReact.Model.Entities
         void Delete(Library prLibrary);
         List<Library> GetAll();
         List<Library> GetByName(string prName);
-        List<Library> Save(Library prLibrary);
-        List<Library> Update(Library prLibrary);
+        Library Save(Library prLibrary);
+        Library Update(Library prLibrary);
     }
 }

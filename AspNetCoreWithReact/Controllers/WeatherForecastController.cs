@@ -39,9 +39,13 @@ namespace AspNetCoreWithReact.Controllers
             //_ILibraryService.Save(lNewLibrary);
 
             //Update Library
-            Library lLibraryToUpdate = _ILibraryService.GetByName("Library of Congress").FirstOrDefault();
-            lLibraryToUpdate.Name = "Library of Congress Updated";
-            _ILibraryService.Update(lLibraryToUpdate);
+            //Library lLibraryToUpdate = _ILibraryService.GetByName("Library of Congress").FirstOrDefault();
+            //lLibraryToUpdate.Name = "Library of Congress Updated";
+            //_ILibraryService.Update(lLibraryToUpdate);
+
+            //DELETE Library
+            Library lLibraryToUpdate = _ILibraryService.GetByName("Library of Congress Updated").FirstOrDefault();
+            _ILibraryService.Delete(lLibraryToUpdate);
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
