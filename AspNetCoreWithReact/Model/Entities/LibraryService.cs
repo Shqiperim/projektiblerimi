@@ -23,9 +23,12 @@ public class LibraryService : ILibraryService
         return linq.ToList();
     }
 
-    public List<Library> Save(Library prLibrary)
+    public Library Save(Library prLibrary)
     {
-        return null;
+        _context.Libraries.Add(prLibrary);
+        _context.SaveChanges();
+
+        return prLibrary;
     }
 
     public List<Library> Update(Library prLibrary)

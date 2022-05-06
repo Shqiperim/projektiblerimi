@@ -27,10 +27,16 @@ namespace AspNetCoreWithReact.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            //DependencyInjection
             //_IConsoleWriter.Write();
 
+            //Get Library
             //List<Library> lLibraries = _ILibraryService.GetAll();
-            List<Library> lLibraries = _ILibraryService.GetByName("Yale");
+            //List<Library> lLibraries = _ILibraryService.GetByName("Yale");
+
+            //Add Library
+            Library lNewLibrary = new Library() { Name = "Test Library", Address = "Test Address", Phone = "456132165"};
+            _ILibraryService.Save(lNewLibrary);
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
