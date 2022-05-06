@@ -1,6 +1,22 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 
 const MyFunctionalComponent = (props) => {
+
+    function componentMount() {
+        alert("Component rendered")
+    }
+
+    function componentUnMount() {
+        alert("Leaving the Component")
+    }
+
+    useEffect(() => {
+        componentMount();
+        return () => {
+            componentUnMount();
+        }
+    },[])
+
     return (
         < div >
             <h1>
