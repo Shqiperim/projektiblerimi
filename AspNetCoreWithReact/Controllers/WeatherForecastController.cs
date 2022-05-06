@@ -35,8 +35,13 @@ namespace AspNetCoreWithReact.Controllers
             //List<Library> lLibraries = _ILibraryService.GetByName("Yale");
 
             //Add Library
-            Library lNewLibrary = new Library() { Name = "Test Library", Address = "Test Address", Phone = "456132165"};
-            _ILibraryService.Save(lNewLibrary);
+            //Library lNewLibrary = new Library() { Name = "Test Library", Address = "Test Address", Phone = "456132165"};
+            //_ILibraryService.Save(lNewLibrary);
+
+            //Update Library
+            Library lLibraryToUpdate = _ILibraryService.GetByName("Library of Congress").FirstOrDefault();
+            lLibraryToUpdate.Name = "Library of Congress Updated";
+            _ILibraryService.Update(lLibraryToUpdate);
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

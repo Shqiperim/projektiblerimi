@@ -31,9 +31,12 @@ public class LibraryService : ILibraryService
         return prLibrary;
     }
 
-    public List<Library> Update(Library prLibrary)
+    public Library Update(Library prLibrary)
     {
-        return null;
+        Library lLibraryFromDB = _context.Libraries.FirstOrDefault(x => x.Id == prLibrary.Id);
+        _context.Entry(lLibraryFromDB).CurrentValues.SetValues(prLibrary);
+        _context.SaveChanges();
+        return prLibrary;
     }
 
     public void Delete(Library prLibrary)
