@@ -28,4 +28,10 @@ public class LibraryController : ControllerBase
         List<Library> lResult = _ILibraryService.GetByName(prName);
         return Ok(lResult);
     }
+
+    [HttpPut]
+    public IActionResult Update(Library prLibrary)
+    {
+        return Ok(_ILibraryService.Update(prLibrary));
+    }
 }
