@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 
 const MyFunctionalComponent = (props) => {
 
@@ -19,10 +19,18 @@ const MyFunctionalComponent = (props) => {
 
     const [age, setAge] = useState(20);
 
+    const onChangeAgeInput = (event) => {
+        alert("Age has changed");
+        setAge(parseInt(event.target.value));
+    }
+
+    const showDetails = (prPhone) => {
+        alert(`Name: ${props.name ? props.name : 'Shqiperim'} | Age: ${age} | Phone: ${prPhone}`);
+    }
+
     return (
         < div >
-            <h1>
-                My Functional Component
+            <h2> My Functional Component</h2>
 
                 {/*PROPS */}
                 <hr />
@@ -32,11 +40,15 @@ const MyFunctionalComponent = (props) => {
                 <hr />
                 <h4>State</h4>
                 <span>
-                    <b>Age: </b>{age}
+                    <b>Age: </b><input type="number" value={age} onChange={onChangeAgeInput} />
                     <button onClick={() => setAge(age + 1)}>+</button>
                     <button onClick={() => setAge(age - 1)}>-</button>
-                </span>
-            </h1>
+            </span>
+
+            {/*Event handling*/}
+            <hr />
+            <h4>Event handling</h4>
+            <button onClick={showDetails.bind(this, 2655131651)}>Show Details</button>
         </div >
       )
 }
