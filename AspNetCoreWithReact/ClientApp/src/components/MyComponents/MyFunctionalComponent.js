@@ -15,7 +15,9 @@ const MyFunctionalComponent = (props) => {
         return () => {
             componentUnMount();
         }
-    },[])
+    }, [])
+
+    const [age, setAge] = useState(20);
 
     return (
         < div >
@@ -24,7 +26,16 @@ const MyFunctionalComponent = (props) => {
 
                 {/*PROPS */}
                 <hr />
-                <h4>Name: <b>{ props.name ? props.name : "Shqiperim1"}</b></h4>
+                <h4>Name: <b>{props.name ? props.name : "Shqiperim1"}</b></h4>
+
+                {/* STATE */}
+                <hr />
+                <h4>State</h4>
+                <span>
+                    <b>Age: </b>{age}
+                    <button onClick={() => setAge(age + 1)}>+</button>
+                    <button onClick={() => setAge(age - 1)}>-</button>
+                </span>
             </h1>
         </div >
       )
