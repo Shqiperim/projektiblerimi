@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspNetCoreWithReact.Model.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWithReact
 {
@@ -9,5 +10,7 @@ namespace AspNetCoreWithReact
         {
                 
         }
+
+        public DbSet<Library> Libraries{ get; set; }
     }
 }
