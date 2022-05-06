@@ -1,0 +1,20 @@
+﻿  CREATE DATABASE AspNetAndReactProj;
+  GO
+
+  USE AspNetAndReactProj;
+  GO
+  CREATE TABLE dbo.Library(
+	Id int IDENTITY(1,1) NOT NULL,
+	Name nvarchar(50) NOT NULL,
+	Address nvarchar(100) NOT NULL,
+	Phone nvarchar(15) NULL,
+	CONSTRAINT PK_Library PRIMARY KEY CLUSTERES (Id ASC)
+  );
+  GO
+
+
+
+  INSERT INTO dbo.Library values('Library of Congress','Washington D.C.','1231456789');
+  INSERT INTO dbo.Library values('Bodleian Library','Oxford, United Kingdom','1112234544');
+  INSERT INTO dbo.Library values('Reading Room At The British Museum','London, England','5465132841');
+  INSERT INTO dbo.Library values('Yale University Beinecke','New Haven, Connecticut, USA','87985123032');
