@@ -2,20 +2,20 @@
 
 const MyFunctionalComponent = (props) => {
 
-    function componentMount() {
-        alert("Component rendered")
-    }
+    //function componentMount() {
+    //    alert("Component rendered")
+    //}
 
-    function componentUnMount() {
-        alert("Leaving the Component")
-    }
+    //function componentUnMount() {
+    //    alert("Leaving the Component")
+    //}
 
-    useEffect(() => {
-        componentMount();
-        return () => {
-            componentUnMount();
-        }
-    }, [])
+    //useEffect(() => {
+    //    componentMount();
+    //    return () => {
+    //        componentUnMount();
+    //    }
+    //}, [])
 
     const [age, setAge] = useState(20);
 
@@ -26,6 +26,13 @@ const MyFunctionalComponent = (props) => {
 
     const showDetails = (prPhone) => {
         alert(`Name: ${props.name ? props.name : 'Shqiperim'} | Age: ${age} | Phone: ${prPhone}`);
+    }
+
+    let ShqipiAge = () => {
+        if (age > 25)
+            return (<p>Shqiperimi has more than 25 years</p>);
+        else
+            return (<p>Shqiperimi has 25 or less years</p>);
     }
 
     return (
@@ -49,6 +56,31 @@ const MyFunctionalComponent = (props) => {
             <hr />
             <h4>Event handling</h4>
             <button onClick={showDetails.bind(this, 2655131651)}>Show Details</button>
+
+            {/* Conditional rendering */}
+            <hr />
+            <h4>Conditional rendering</h4>
+
+            {/* Exampe 1 - IF/ELSE */}
+            {ShqipiAge()}
+
+            {/* Exampe 2 - Ternary operator */}
+            <p>{age > 25 ? 'Shqipi has more than 25 years' : 'Shqipi has 25 or less Years'}</p>
+
+            {/* Exampe 3 - Short-ciruit operator */}
+            {age > 25 && <p>Shqipi has more than 25 years</p>}
+            {age < 25 && <p>Shqipi has 25 or less Years</p>}
+
+            {/* Exampe 4 - Imediately invoked function */}
+            {
+                (() => {
+                    switch (age) {
+                        case 25: return <p>Shqipi has 25 or more years</p>;
+                        default: return <p>Shqipi has less 25 Years</p>
+                    }
+                })()
+            }
+
         </div >
       )
 }
