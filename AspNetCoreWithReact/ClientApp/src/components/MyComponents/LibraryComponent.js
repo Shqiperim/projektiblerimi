@@ -17,9 +17,36 @@ const LibraryComponent = (props) => {
         setSearchParameterName(event.target.value.toString());
     }
     const searchItems = () => {
-        let URL = searchParameterName !== "" ? ("https://localhost:7183/Library/Search?prName" + searchParameterName) : "https://localhost:7183/Library/GetAll";
+        let URL = searchParameterName !== "" ? ("https://localhost:7183/Library/Search?prName=" + searchParameterName) : "https://localhost:7183/Library/GetAll";
         axios.get(URL).then(response => {
+            response.data.map(item => { item.isEditing = false;})
             setLibrariesList(response.data);
+        })
+    }
+
+    //Update
+    const handleLibraryInputChange = (prLibrary, prInput) => {
+        let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
+        const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
+        const { name, value } = prInput.target; //Get the name and value of the property changed
+        librariesNewReference[index] = { ...prLibrary, [name]: value }; //Update just the specific property keeping the orhers
+        setLibrariesList(librariesNewReference);
+    }
+
+    const editLibrary = (prLibrary) => {
+        let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
+        const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
+        librariesNewReference[index].isEditing = true;
+        setLibrariesList(librariesNewReference);
+    }
+
+    const confirmUpdate = (prLibrary) => {
+        axios.put("https://localhost:7183/api/Library/Update", prLibrary).then(response => {
+            let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
+            const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
+            librariesNewReference[index] = prLibrary;
+            librariesNewReference[index].isEditing = false;
+            setLibrariesList(librariesNewReference);
         })
     }
 
@@ -92,9 +119,15 @@ const LibraryComponent = (props) => {
                         <tbody>
                             {librariesList.map(item => 
                                 <tr key={item.name}>
-                                    <td>{item.name}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.phone}</td>
+                                    <td><input className="form-control" value={item.name} onChange={handleLibraryInputChange.bind(this, item)} name="name" disabled={!item.isEditing} /></td>
+                                    <td><input className="form-control" value={item.address} onChange={handleLibraryInputChange.bind(this, item)} name="address" disabled={!item.isEditing} /></td>
+                                    <td><input className="form-control" value={item.phone} onChange={handleLibraryInputChange.bind(this, item)} name="phone" disabled={!item.isEditing} /></td>
+                                    <td>
+                                        <div className="btn-toolbar">
+                                            <button type="button" className="btn btn-info mr-2" onClick={editLibrary.bind(this, item)} style={{ display: item.isEditing ? 'none' : 'block'}}>Edit</button>
+                                            <button type="button" className="btn btn-success mr-2" onClick={confirmUpdate.bind(this, item)} style={{ display: item.isEditing ? 'block' : 'none'}}>Save</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 )}
                         </tbody>
