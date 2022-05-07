@@ -20,9 +20,12 @@ const LibraryComponent = (props) => {
     const searchItems = () => {
         let URL = searchParameterName !== "" ? ("https://localhost:7183/Library/Search?prName=" + searchParameterName) : "https://localhost:7183/Library/GetAll";
         axios.get(URL).then(response => {
-            response.data.map(item => { item.isEditing = false;})
+            response.data.map(item => { item.isEditing = false; })
             setLibrariesList(response.data);
-        })
+        }).catch(error => {
+            setAlertErrorMessage(error.message);
+            setShowAlertError(true);
+        });
     }
 
     //Update
@@ -35,10 +38,16 @@ const LibraryComponent = (props) => {
     }
 
     const updateEditingStatus = (prLibrary, prFlag) => {
-        let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
-        const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
-        librariesNewReference[index].isEditing = prFlag;
-        setLibrariesList(librariesNewReference);
+        try {
+            let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
+            const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
+            librariesNewReference[index].isEditing = prFlag;
+            setLibrariesList(librariesNewReference);
+        }
+        catch (error) {
+            setAlertErrorMessage(error.message);
+            setShowAlertError(true);
+        }
     }
 
     const confirmUpdate = (prLibrary) => {
@@ -48,7 +57,10 @@ const LibraryComponent = (props) => {
             librariesNewReference[index] = prLibrary;
             librariesNewReference[index].isEditing = false;
             setLibrariesList(librariesNewReference);
-        })
+        }).catch(error => {
+            setAlertErrorMessage(error.message);
+            setShowAlertError(true);
+        });
     }
   
     //Insert
@@ -66,7 +78,10 @@ const LibraryComponent = (props) => {
             librariesNewReference.push(response.data);
             setLibrariesList(librariesNewReference);
             setLibraryToAdd({ name: '', address: '', phone: '' });// Clear the state
-            setshowAlertNewLibrary(true);
+            setShowAlertNewLibrary(true);
+        }).catch(error => {
+            setAlertErrorMessage(error.message);
+            setShowAlertError(true);
         });
     }
 
@@ -77,11 +92,14 @@ const LibraryComponent = (props) => {
             const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
             librariesNewReference.splice(index, 1); //Remove item form list
             setLibrariesList(librariesNewReference);
-        });
+        })
     }
 
     //Alerts
-    const [showAlertNewLibrary, setshowAlertNewLibrary] = useState(false);
+    const [showAlertNewLibrary, setShowAlertNewLibrary] = useState(false);
+    const [showAlertError, setShowAlertError] = useState(false);
+    const [alertErrorMessage, setAlertErrorMessage] = useState('');
+
 
 
     return (
@@ -170,15 +188,26 @@ const LibraryComponent = (props) => {
                     </table>
                 </div>
             </div>
-            {/*AlertLibrary Added*/}
+            {/*Alert Library Added*/}
             { showAlertNewLibrary &&
                 <SweetAlert success
                     confirmBtnText="Ok"
                     confirmBtnBsStyle="success"
                     title="Item successfully added!"
-                    onConfirm={() => setshowAlertNewLibrary(false)}>
+                    onConfirm={() => setShowAlertNewLibrary(false)}>
                 Please click "Ok" to close
             </SweetAlert>
+            }
+
+            {/*Alert Error*/}
+            {showAlertError &&
+                <SweetAlert danger
+                    confirmBtnText="Ok"
+                    confirmBtnBsStyle="danger"
+                    title="Something wrong happened..."
+                    onConfirm={() => setShowAlertNewLibrary(false)}>
+                { alertErrorMessage }
+                </SweetAlert>
             }
         </div>
         )
