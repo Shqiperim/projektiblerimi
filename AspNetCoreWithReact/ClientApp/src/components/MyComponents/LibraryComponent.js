@@ -1,7 +1,28 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import axios from 'axios';
 
 const LibraryComponent = (props) => {
+
+    //List Libraries
+    const [librariesList, setLibrariesList] = useState(
+        [
+        {id:1, name: 'Library 1', address:'Address 1', phone:'514651584'},
+        { id: 2, name: 'Library 2', address: 'Address 2', phone: '458541555' },
+        ]
+    );
+
+    //Search
+    const [searchParameterName, setSearchParameterName] = useState('');
+    const handleInputChange = (event) => {
+        setSearchParameterName(event.target.value.toString());
+    }
+    const searchItems = () => {
+        let URL = searchParameterName !== "" ? ("https://localhost:7183/Library/Search?prName" + searchParameterName) : "https://localhost:7183/Library/GetAll";
+        axios.get(URL).then(response => {
+            setLibrariesList(response.data);
+        })
+    }
+
     return (
         <div>
             <hr />
@@ -16,12 +37,12 @@ const LibraryComponent = (props) => {
                             <div className="row">
                                 <div className="col-md-7">
                                     <lable className="form-label">Name</lable>
-                                    <input className="form-control" placeholder="Enter name" name="name" type="text"/>
+                                    <input className="form-control" placeholder="Enter name" name="name" type="text" value={searchParameterName} onChange={handleInputChange} />
                                 </div>
                                 <div className="col-md-5">
                                     <lable className="form-label">&nbsp;</lable>
                                     <div className="btn-toolbar">
-                                        <button type="button" className="btn btn-primary form-control">Search</button>
+                                        <button type="button" className="btn btn-primary form-control" onClick={searchItems.bind(this)}>Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -66,22 +87,16 @@ const LibraryComponent = (props) => {
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Phone</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input className="form-control" type="text" value="Name"/></td>
-                                <td><input className="form-control" type="text" value="Address"/></td>
-                                <td><input className="form-control" type="text" value="Phone"/></td>
-                                <td>
-                                    <div className="btn-toolbar">
-                                        <button className="btn btn-info mr-2">Edit</button>
-                                        <button className="btn btn-success mr-2">Save</button>
-                                        <button className="btn btn-danger mr-2">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            {librariesList.map(item => 
+                                <tr key={item.name}>
+                                    <td>{item.name}</td>
+                                    <td>{item.address}</td>
+                                    <td>{item.phone}</td>
+                                </tr>
+                                )}
                         </tbody>
                     </table>
                 </div>
