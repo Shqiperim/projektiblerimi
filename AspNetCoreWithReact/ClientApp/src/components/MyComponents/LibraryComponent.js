@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 const LibraryComponent = (props) => {
 
@@ -65,6 +66,7 @@ const LibraryComponent = (props) => {
             librariesNewReference.push(response.data);
             setLibrariesList(librariesNewReference);
             setLibraryToAdd({ name: '', address: '', phone: '' });// Clear the state
+            setshowAlertNewLibrary(true);
         });
     }
 
@@ -77,6 +79,9 @@ const LibraryComponent = (props) => {
             setLibrariesList(librariesNewReference);
         });
     }
+
+    //Alerts
+    const [showAlertNewLibrary, setshowAlertNewLibrary] = useState(false);
 
 
     return (
@@ -165,6 +170,16 @@ const LibraryComponent = (props) => {
                     </table>
                 </div>
             </div>
+            {/*AlertLibrary Added*/}
+            { showAlertNewLibrary &&
+                <SweetAlert success
+                    confirmBtnText="Ok"
+                    confirmBtnBsStyle="success"
+                    title="Item successfully added!"
+                    onConfirm={() => setshowAlertNewLibrary(false)}>
+                Please click "Ok" to close
+            </SweetAlert>
+            }
         </div>
         )
 }
