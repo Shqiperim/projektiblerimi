@@ -4,7 +4,7 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 
 const LibraryComponent = (props) => {
 
-    //List Libraries
+   /* List Libraries*/
     const [librariesList, setLibrariesList] = useState(
         [
         {id:1, name: 'Library 1', address:'Address 1', phone:'514651584'},
@@ -18,14 +18,17 @@ const LibraryComponent = (props) => {
         setSearchParameterName(event.target.value.toString());
     }
     const searchItems = () => {
-        let URL = searchParameterName !== "" ? ("https://localhost:7183/Library/Search?prName=" + searchParameterName) : "https://localhost:7183/Library/GetAll";
-        axios.get(URL).then(response => {
-            response.data.map(item => { item.isEditing = false; })
-            setLibrariesList(response.data);
-        }).catch(error => {
+        try {
+        let URL = searchParameterName !== "" ? ("https://localhost:44360/Library/Search?prName" + searchParameterName) : "https://localhost:44360/api/Library/GetAll";
+            axios.get(URL).then(response => {
+                response.data.map(item => { item.isEditing = false; })
+                setLibrariesList(response.data);
+            });
+        }
+        catch (error) {
             setAlertErrorMessage(error.message);
             setShowAlertError(true);
-        });
+        }
     }
 
     //Update
@@ -51,7 +54,7 @@ const LibraryComponent = (props) => {
     }
 
     const confirmUpdate = (prLibrary) => {
-        axios.put("https://localhost:7183/api/Library/Update", prLibrary).then(response => {
+        axios.put("https://localhost:44360/api/Library/Update", prLibrary).then(response => {
             let librariesNewReference = [...librariesList]; //Creat a copy of the object with new reference (new space in memory)
             const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
             librariesNewReference[index] = prLibrary;
@@ -73,7 +76,7 @@ const LibraryComponent = (props) => {
     }
 
     const confirmNewLibrary = () => {
-        axios.post("https://localhost:7183/api/Library/Save", libraryToAdd).then(response => {
+        axios.post("https://localhost:44360/api/Library/Save", libraryToAdd).then(response => {
             let librariesNewReference = [...librariesList]; 
             librariesNewReference.push(response.data);
             setLibrariesList(librariesNewReference);
@@ -87,7 +90,7 @@ const LibraryComponent = (props) => {
 
     //Delete Library
     const deleteLibrary = (prLibrary) => {
-        axios.delete("https://localhost:7183/api/Library/Delete", { data: prLibrary }).then(response => {
+        axios.delete("https://localhost:44360/api/Library/Delete", { data: prLibrary }).then(response => {
             let librariesNewReference = [...librariesList];
             const index = librariesNewReference.findIndex((item) => item.name == prLibrary.name);
             librariesNewReference.splice(index, 1); //Remove item form list
