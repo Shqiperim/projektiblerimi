@@ -6,7 +6,7 @@ namespace AspNetCoreWithReact.DependencyInjection
     {
         public void Write()
         {
-            Debug.WriteLine("Testing Depaendency Injection...");
+            Debug.WriteLine("Testing Dependency Injection...");
         }
     }
 }
